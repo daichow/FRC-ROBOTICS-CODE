@@ -1,0 +1,502 @@
+package org.usfirst.frc.team772.robot.commands.group;
+
+import org.usfirst.frc.team772.robot.Robot;
+import org.usfirst.frc.team772.robot.commands.AutoDriveCommand;
+import org.usfirst.frc.team772.robot.commands.AutoDriveUltraSonicBackwardCommand;
+import org.usfirst.frc.team772.robot.commands.AutoDriveUltraSonicForwardCommand;
+import org.usfirst.frc.team772.robot.commands.AutoDriveWithoutPIDCommand;
+import org.usfirst.frc.team772.robot.commands.AutoTurnCommand;
+import org.usfirst.frc.team772.robot.commands.EnvelopeCommand;
+import org.usfirst.frc.team772.robot.commands.GearShiftCommand;
+import org.usfirst.frc.team772.robot.commands.IntakeCommand;
+import org.usfirst.frc.team772.robot.commands.LightCommand;
+import org.usfirst.frc.team772.robot.commands.ShootCommand;
+import org.usfirst.frc.team772.robot.commands.TurnWithPIDCommand;
+import org.usfirst.frc.team772.robot.commands.TurnWithoutPIDCommand;
+import org.usfirst.frc.team772.robot.commands.WaitCommand;
+import org.usfirst.frc.team772.robot.commands.WaitWithoutCheckCommand;
+import org.usfirst.frc.team772.robot.commands.visionBoiler.OpenBoilerSocketCommand;
+import org.usfirst.frc.team772.robot.commands.visionBoiler.TargetBoilerSortCommand;
+import org.usfirst.frc.team772.robot.commands.visionBoiler.VisionBoilerTargetCommand;
+import org.usfirst.frc.team772.robot.commands.visionGear.OpenGearSocketCommand;
+import org.usfirst.frc.team772.robot.commands.visionGear.TargetGearSortCommand;
+import org.usfirst.frc.team772.robot.commands.visionGear.VisionGearTargetCommand;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+/**
+ *
+ */
+public class AutonomousCommand extends CommandGroup {
+
+    public AutonomousCommand(int side, int autoMode, int delay) {
+    	switch(side){
+    	case 0: redSide(autoMode, delay);
+    		break;
+    	case 1: blueSide(autoMode, delay);
+    		break;
+    	default: defult();
+			break;
+    	}
+    }
+    
+    public void redSide(int autoMode, int delay){
+    	switch(autoMode){
+    	case 0: defult();
+    		break;
+    	case 1: autoMode1Red(delay);
+    		break;
+    	case 2: autoMode2Red(delay);
+			break;
+    	case 3: autoMode3Red(delay);
+			break;
+    	case 4: autoMode4Red(delay);
+			break;
+    	case 5: autoMode5Red(delay);
+			break;
+    	case 6: autoMode6Red(delay);
+			break;
+    	case 7: autoMode7Red(delay);
+			break;
+    	case 8: autoMode8Red(delay);
+			break;
+    	case 9: autoMode9Red(delay);
+			break;
+    	case 10: autoMode10Red(delay);
+			break;
+    	case 11: autoMode11Red(delay);
+			break;
+    	default: defult();
+			break;
+    	}
+    }
+    
+    public void blueSide(int autoMode, int delay){
+    	switch(autoMode){
+    	case 0: defult();
+    		break;
+    	case 1: autoMode1Blue(delay);
+    		break;
+    	case 2: autoMode2Blue(delay);
+			break;
+    	case 3: autoMode3Blue(delay);
+			break;
+    	case 4: autoMode4Blue(delay);
+			break;
+    	case 5: autoMode5Blue(delay);
+			break;
+    	case 6: autoMode6Blue(delay);
+			break;
+    	case 7: autoMode7Blue(delay);
+    		break;
+    	case 8: autoMode8Blue(delay);
+			break;
+    	case 9: autoMode9Blue(delay);
+			break;
+    	case 10: autoMode10Blue(delay);
+			break;
+    	case 11: autoMode11Blue(delay);
+			break;
+    	default: defult();
+			break;
+    	}
+    }
+    
+    /*
+     * red side auto modes
+     * 
+     * Mode1:Use for middle gear. Hangs gear then shoot. Human player has 1.5 seconds to get gear out
+     * Mode2:Use for side gear(
+     * 
+     */
+    public void autoMode1Red(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.7, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-1.5));
+    	addSequential(new TurnWithPIDCommand(-100));
+    	addSequential(new AutoDriveCommand(8));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+		addSequential(new TargetBoilerSortCommand());
+		addSequential(new AutoTurnCommand());
+		addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.70));
+    }
+    public void autoMode2Red(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(-8.5));
+    	addSequential(new TurnWithPIDCommand(90));
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.8, 8, "front"));
+    	addParallel(new IntakeCommand(true));
+    	addSequential(new TurnWithPIDCommand(-90));
+    	addSequential(new AutoDriveCommand(6.5));
+    	addSequential(new TurnWithPIDCommand(45));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+		addSequential(new TargetBoilerSortCommand());
+		addSequential(new AutoTurnCommand());
+    	addSequential(new ShootCommand(true,0.70));
+    }
+    public void autoMode3Red(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(6.5));
+    	addSequential(new TurnWithPIDCommand(60));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionGearTargetCommand("targets"));
+//    	addSequential(new TargetGearSortCommand());
+//    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-2));
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new TurnWithPIDCommand(170));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+    	addSequential(new TargetBoilerSortCommand());
+    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.70));
+    }
+    public void autoMode4Red(int delay){
+//    	SmartDashboard.putString("DB/String 3", "Red, Left Hook");
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(6.5));
+    	addSequential(new TurnWithPIDCommand(-60));  
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionGearTargetCommand("targets"));
+//    	addSequential(new TargetGearSortCommand());
+//    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-3));
+    	addSequential(new TurnWithPIDCommand(45));
+    	addSequential(new AutoDriveCommand(10));
+    }
+    public void autoMode5Red(int delay){
+    	addSequential(new ShootCommand(true, .8));
+    }
+    public void autoMode6Red(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(2));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionGearTargetCommand("targets"));
+    	addSequential(new TargetGearSortCommand());
+    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-3));
+    	addSequential(new TurnWithPIDCommand(-100));
+    	addSequential(new AutoDriveCommand(4));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+    	addSequential(new TargetBoilerSortCommand());
+    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.70));
+    }
+    public void autoMode7Red(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(-12));
+    	addSequential(new TurnWithPIDCommand(50));
+    	addParallel(new IntakeCommand(true));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new AutoDriveCommand(-3));
+//    	addSequential(new TurnWithPIDCommand(-15));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new AutoDriveCommand(4.5));
+//    	addSequential(new TurnWithPIDCommand(50));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+    	addSequential(new TargetBoilerSortCommand());
+    	addSequential(new AutoTurnCommand());
+//    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.805));
+    }
+    public void autoMode8Red(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.7, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-1.5));
+    	addSequential(new TurnWithPIDCommand(-100));
+    	addSequential(new AutoDriveCommand(5.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+		addSequential(new TargetBoilerSortCommand());
+		addSequential(new AutoTurnCommand());
+    	addSequential(new ShootCommand(true,1));
+    }public void autoMode9Red(int delay){//middle
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveUltraSonicForwardCommand(-.6, 7, "back"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(1.5));
+    	addSequential(new TurnWithPIDCommand(60));
+    	addSequential(new AutoDriveCommand(8.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+		addSequential(new TargetBoilerSortCommand());
+		addSequential(new AutoTurnCommand());
+//		addSequential(new AutoDriveLidarCommand(60));
+//		addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionBoilerTargetCommand("targets"));
+//		addSequential(new TargetBoilerSortCommand());
+//		addSequential(new AutoTurnCommand());
+//		addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.805));
+    }public void autoMode10Red(int delay){//boilerside
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(-5.9));
+    	addSequential(new TurnWithPIDCommand(60));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionGearTargetCommand("targets"));
+//    	addSequential(new TargetGearSortCommand());
+//    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(-.5, 6, "back"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	
+    	addSequential(new AutoDriveCommand(1));
+    	addSequential(new TurnWithPIDCommand(-10));
+    	addSequential(new AutoDriveCommand(7.5));
+    	
+    //addSequential(new AutoDriveCommand(7.5));
+    	
+//    	addSequential(new TurnWithPIDCommand(30));
+//    	addSequential(new AutoDriveUltraSonicForwardCommand(1, 18, "front"));
+//    	addParallel(new IntakeCommand(true));
+//    	addSequential(new TurnWithPIDCommand(-90));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new AutoDriveCommand(4.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+    	addSequential(new TargetBoilerSortCommand());
+    	addSequential(new AutoTurnCommand());
+//    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.805));
+    }public void autoMode11Red(int delay){//farside
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(-5.9));
+    	addSequential(new TurnWithPIDCommand(-60));  
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionGearTargetCommand("targets"));
+//    	addSequential(new TargetGearSortCommand());
+//    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(-.5, 6, "back"));
+    	addSequential(new WaitWithoutCheckCommand(2));
+    	addSequential(new AutoDriveCommand(1)); 
+    	addParallel(new IntakeCommand(true));
+    	addSequential(new TurnWithPIDCommand(-70)); 
+    	addSequential(new AutoDriveCommand(7)); 
+    	addSequential(new TurnWithPIDCommand(-20));
+    	addSequential(new AutoDriveCommand(10)); 
+//    	addSequential(new TurnWithPIDCommand(90)); 
+//    	addSequential(new AutoDriveCommand(10));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionBoilerTargetCommand("targets"));
+//    	addSequential(new TargetBoilerSortCommand());
+//    	addSequential(new AutoTurnCommand());
+//    	addSequential(new ShootCommand(true,0.85));
+    }
+    
+    /*
+     * blue side auto modes
+     * 
+     * 
+     */
+    public void autoMode1Blue(int delay){
+    	addParallel(new LightCommand(0.25));
+    	addSequential(new VisionGearTargetCommand("targets"));
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.7, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-1.5));
+    	addSequential(new TurnWithPIDCommand(100));
+    	addSequential(new AutoDriveCommand(8));
+    	addParallel(new LightCommand(0.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+		addSequential(new TargetBoilerSortCommand());
+		addSequential(new AutoTurnCommand());
+		addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.70));
+    }
+    public void autoMode2Blue(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(-8.5));
+    	addSequential(new TurnWithPIDCommand(-90));
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.8, 8, "front"));
+    	addParallel(new IntakeCommand(true));
+    	addSequential(new TurnWithPIDCommand(90));
+    	addSequential(new AutoDriveCommand(6.5));
+    	addSequential(new TurnWithPIDCommand(-45));
+    	addParallel(new LightCommand(0.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+		addSequential(new TargetBoilerSortCommand());
+		addSequential(new AutoTurnCommand());
+    	addSequential(new ShootCommand(true,0.70));
+    }
+    public void autoMode3Blue(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(6.5));
+    	addSequential(new TurnWithPIDCommand(-60));    	
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionGearTargetCommand("targets"));
+//    	addSequential(new TargetGearSortCommand());
+//    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-2));
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new TurnWithPIDCommand(-150));
+//    	addSequential(new AutoDriveUltraSonicForwardCommand(1, 35));
+    	addParallel(new LightCommand(0.5));
+    	addSequential(new AutoDriveCommand(3.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+    	addSequential(new TargetBoilerSortCommand());
+    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.70));
+    }
+    public void autoMode4Blue(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(6.5));
+    	addSequential(new TurnWithPIDCommand(60));    
+//    	addSequential(new WaitWithoutCheckCommand(0.5));
+//    	addSequential(new VisionGearTargetCommand("targets"));
+//    	addSequential(new TargetGearSortCommand());
+//    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-3));
+    	addSequential(new TurnWithPIDCommand(-45));
+    	addSequential(new AutoDriveCommand(10));
+    }
+    public void autoMode5Blue(int delay){
+    	addSequential(new ShootCommand(true, .8));
+    }
+    public void autoMode6Blue(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(2));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionGearTargetCommand("targets"));
+    	addSequential(new TargetGearSortCommand());
+    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-3));
+    	addSequential(new TurnWithPIDCommand(100));
+    	addSequential(new AutoDriveCommand(4));
+    	addParallel(new LightCommand(0.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+    	addSequential(new TargetBoilerSortCommand());
+    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.70));
+    }
+    public void autoMode7Blue(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(-12));
+    	addSequential(new TurnWithPIDCommand(-50));
+    	addParallel(new IntakeCommand(true));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new AutoDriveCommand(-3));
+//    	addSequential(new TurnWithPIDCommand(-15));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new AutoDriveCommand(4.5));
+//    	addSequential(new TurnWithPIDCommand(50));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+    	addSequential(new TargetBoilerSortCommand());
+    	addSequential(new AutoTurnCommand());
+//    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.805));
+    } public void autoMode8Blue(int delay){
+    	addParallel(new LightCommand(0.5));
+    	addSequential(new AutoDriveUltraSonicForwardCommand(.7, 7, "front"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(-1.5));
+    	addSequential(new TurnWithPIDCommand(100));
+    	addSequential(new AutoDriveCommand(5.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+		addSequential(new TargetBoilerSortCommand());
+		addSequential(new AutoTurnCommand());
+    	addSequential(new ShootCommand(true,1));
+    }public void autoMode9Blue(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveUltraSonicForwardCommand(-.6, 7, "back"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(1.5));
+    	addSequential(new TurnWithPIDCommand(-60));
+    	addSequential(new AutoDriveCommand(8.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+		addSequential(new TargetBoilerSortCommand());
+		addSequential(new AutoTurnCommand());
+//		addSequential(new AutoDriveLidarCommand(60));
+//		addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionBoilerTargetCommand("targets"));
+//		addSequential(new TargetBoilerSortCommand());
+//		addSequential(new AutoTurnCommand());
+//		addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.805));
+    }public void autoMode10Blue(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(-5.5));
+    	addSequential(new TurnWithPIDCommand(-60));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionGearTargetCommand("targets"));
+//    	addSequential(new TargetGearSortCommand());
+//    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(-.5, 6, "back"));
+    	addSequential(new WaitWithoutCheckCommand(1.5));
+    	addSequential(new AutoDriveCommand(1));
+    	addSequential(new TurnWithPIDCommand(10));
+    	addSequential(new AutoDriveCommand(7.5));
+//    	addSequential(new AutoDriveCommand(1));
+//    	addParallel(new LightCommand(0.5));
+//    	addSequential(new TurnWithPIDCommand(-30));
+//    	addSequential(new AutoDriveUltraSonicForwardCommand(1, 18, "front"));
+//    	addParallel(new IntakeCommand(true));
+//    	addSequential(new TurnWithPIDCommand(90));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new AutoDriveCommand(4.5));
+    	addSequential(new WaitWithoutCheckCommand(.5));
+    	addSequential(new VisionBoilerTargetCommand("targets"));
+    	addSequential(new TargetBoilerSortCommand());
+    	addSequential(new AutoTurnCommand());
+//    	addSequential(new AutoDriveUltraSonicForwardCommand(.6, 7, "front"));
+    	addSequential(new ShootCommand(true,0.805));
+    }public void autoMode11Blue(int delay){
+    	addParallel(new LightCommand(0.125));
+    	addSequential(new AutoDriveCommand(-6));
+    	addSequential(new TurnWithPIDCommand(60));  
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionGearTargetCommand("targets"));
+//    	addSequential(new TargetGearSortCommand());
+//    	addSequential(new AutoTurnCommand());
+    	addSequential(new AutoDriveUltraSonicForwardCommand(-.5, 6, "back"));
+    	addSequential(new WaitWithoutCheckCommand(2));
+    	addSequential(new AutoDriveCommand(1)); 
+    	addSequential(new TurnWithPIDCommand(70));
+    	addParallel(new IntakeCommand(true));
+    	addSequential(new AutoDriveCommand(7)); 
+    	addSequential(new TurnWithPIDCommand(20));
+    	addSequential(new AutoDriveCommand(10)); 
+//    	addSequential(new AutoDriveCommand(5.5)); 
+//    	addSequential(new TurnWithPIDCommand(-90)); 
+//    	addSequential(new AutoDriveCommand(10));
+//    	addSequential(new WaitWithoutCheckCommand(.5));
+//    	addSequential(new VisionBoilerTargetCommand("targets"));
+//    	addSequential(new TargetBoilerSortCommand());
+//    	addSequential(new AutoTurnCommand());
+//    	addSequential(new ShootCommand(true,0.85));
+    }
+    
+    
+    public void defult(){
+    	addSequential(new AutoDriveCommand(7));
+    }
+}

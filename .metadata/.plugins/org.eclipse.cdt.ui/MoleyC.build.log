@@ -1,0 +1,9 @@
+16:26:31 **** Incremental Build of configuration Debug for project MoleyC ****
+make all 
+Cannot run program "make": Launching failed
+
+Error: Program "make" not found in PATH
+PATH=[C:/JAVA/Java Development Kit/bin/../jre/bin/server;C:/JAVA/Java Development Kit/bin/../jre/bin;C:/JAVA/Java Development Kit/bin/../jre/lib/amd64;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\PuTTY\;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\JAVA\Java Development Kit\bin;C:\Users\USER\AppData\Local\GitHubDesktop\bin;C:\eclipse]
+
+16:26:31 Build Finished (took 311ms)
+

@@ -1,0 +1,31 @@
+package org.usfirst.frc.team772.robot.subsystems;
+
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+/**
+ *
+ */
+public class DriveSubsystem extends Subsystem {
+
+    // Put methods for controlling this subsystem
+    // here. Call these from Commands.
+
+	Talon t1 = new Talon(0);
+	Talon t2 = new Talon(1);
+	
+	
+	
+	public void move (double speed) {
+		t1.set(speed);
+		t2.set(speed);
+	}
+	
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    }
+}
+

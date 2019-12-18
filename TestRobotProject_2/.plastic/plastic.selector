@@ -1,0 +1,4 @@
+repository "TestRobotProject@ssl://158.69.212.95:8088"
+  path "/"
+    br "/main"
+    co "/main"

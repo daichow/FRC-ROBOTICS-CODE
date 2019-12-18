@@ -1,0 +1,1 @@
+Cannot use this in a static contextint x = randInt(1,10);x

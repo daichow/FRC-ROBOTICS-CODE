@@ -1,0 +1,4 @@
+repository "Agnes2016@ssl://158.69.212.95:8088"
+  path "/"
+    smartbranch "/main/dev/intake"                          
+     
